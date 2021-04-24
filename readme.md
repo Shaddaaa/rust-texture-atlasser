@@ -2,7 +2,7 @@ Easy texture atlass creation with various options to fit different needs.
 
 Provides a way to create texture atlasses from lists of [Paths](https://doc.rust-lang.org/stable/std/path/struct.Path.html) or [DynamicImages](https://docs.rs/image/).
 
-#Examples#
+# Examples #
 
 Loading different images into atlantes and saving them afterwards:
 ```rust
