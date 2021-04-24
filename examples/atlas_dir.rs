@@ -9,19 +9,20 @@ fn main() -> Result<(), Box<dyn Error>>{
     let path_buffs: Vec<PathBuf> = fs::read_dir(directory).unwrap().filter_map(|entry| {
         let entry = entry.ok()?;
         if entry.file_type().unwrap().is_file() {
-            println!("{:?}", entry.path());
             return Some(entry.path());
         } else {
             return None;
         }
     }).collect();
     let paths: Vec<&Path> = path_buffs.iter().map(|path_buf| {path_buf.as_path()}).collect();
-
+    //let paths: Vec<&Path> = vec!(Path::new("./examples/assets/grass.png"));
     let options = ta::AtlasOptions { 
-        width: 64,
-        height: 64,
-        margin: 2,
-        max_atlantes: 2,
+        width: 512,
+        height: 512,
+        margin: 3,
+        max_atlantes: 1,
+        try_smaller: Some(1.1),
+        cut_down: true,
     };
 
     let atlas = ta::atlas_paths(&paths, options)?;

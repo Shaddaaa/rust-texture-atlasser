@@ -6,6 +6,7 @@ use image::ImageError;
 pub enum AtlasError {
     ImageError(ImageError),
     IoError(io::Error),
+    /// Describes when images are larger than the maximum atlas size or require more atlantes
     PackingError(&'static str),
 }
 
