@@ -1,3 +1,7 @@
+
+
+
+
 use std::{collections::{BTreeMap, HashMap}};
 use std::path::Path;
 
@@ -8,13 +12,13 @@ use rectangle_pack as rp;
 use crate::error::AtlasError;
 
 
-/// Holds the created textures and pairs of image_index, atlas_index, Rect describing where each image sits in the created atlasses.
+/// Holds the created atlas textures and [`Rects`][Rect] describing where each image sits.
 pub struct AtlasLayout {
-    /// The list of atlas textures, format is rgba16
+    /// The list of atlas textures, format is [`rgba16`][image::DynamicImage::ImageRgba16]
     pub atlantes: Vec<DynamicImage>,
     /// Specifies the positions of the textures inside the atlantes.
     ///
-    /// Order will be the same as the paths/buffers supplied to the functions
+    /// Order is the same as the images supplied to the functions
     pub rects: Vec<Rect>
 }
 
@@ -28,7 +32,7 @@ pub struct Rect {
     pub atlas_index: usize,
 }
 
-/// Options passed to atlassing function
+/// Options passed to the atlassing function
 pub struct AtlasOptions {
     /// The width of resulting atlantes
     pub width: u32,
@@ -38,21 +42,21 @@ pub struct AtlasOptions {
     pub margin: u32,
     /// The maximum amount of atlas-textures to create from the supplied list of images.
     pub max_atlantes: u32,
-    /// If Some(factor) atlassing will try to create smaller atlantes, where the supplied width and height only act as upper bounds.
+    /// If `Some(factor)` atlassing will try to create smaller atlantes, where the supplied width and height only act as upper bounds. A lower `factor` will produce smaller textures, but takes longer.
     ///
-    /// Do note that this will prioritize smaller images over reducing atlantes used, so you usually only want to use this with max_antlantes set to 1.
+    /// Do note that this will prioritize smaller images over reducing atlantes used, so you usually only want to use this with `max_antlantes` set to 1.
     pub try_smaller: Option<f32>,
     /// If enabled unused sides of the atlas will be cut out where possible while remaining rectangular shape, reducing the image size.
     pub cut_down: bool,
 }
 
-/// Loads the images in paths and atlasses them with the supplied options
+/// Loads the images in paths and atlasses them with the supplied [`AtlasOptions`].
 pub fn atlas_paths(paths: &[&Path], options: AtlasOptions) -> Result<AtlasLayout, AtlasError> {
     let buffers = load_textures(paths)?;
     atlas_buffers(buffers, options)
 }
 
-/// Atlasses a list of DynamicImages with the supplied options
+/// Atlasses a list of [`DynamicImages`][DynamicImage] with the supplied [`AtlasOptions`].
 pub fn atlas_buffers(mut buffers: Vec<DynamicImage>, options: AtlasOptions) -> Result<AtlasLayout, AtlasError> {
 
     let mut rects = rp::GroupedRectsToPlace::<_, usize>::new();

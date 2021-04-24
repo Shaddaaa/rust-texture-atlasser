@@ -14,8 +14,11 @@ fn main() -> Result<(), Box<dyn Error>>{
             return None;
         }
     }).collect();
+    // Convert PathBufs into &Paths
     let paths: Vec<&Path> = path_buffs.iter().map(|path_buf| {path_buf.as_path()}).collect();
-    //let paths: Vec<&Path> = vec!(Path::new("./examples/assets/grass.png"));
+
+    // We want all our images inside a single (small) texture atlas with a 3 pixel margin, so we set max_atlantes to 1, enable cut_down & try_smaller. 
+    // width & height just need to be enough here, as the atlasser will try to minimize the dimensions anyways
     let options = ta::AtlasOptions { 
         width: 512,
         height: 512,
@@ -25,12 +28,12 @@ fn main() -> Result<(), Box<dyn Error>>{
         cut_down: true,
     };
 
+    // Create the atlas
     let atlas = ta::atlas_paths(&paths, options)?;
     
-    // Save the atlantes
-    for (i, image) in atlas.atlantes.iter().enumerate() {
-        image.save(format!("./examples/assets/atlantes/dir_atlas{}.png", i))?;
-    }
+    // Save the atlas
+    atlas.atlantes[0].save(format!("./examples/assets/atlantes/dir_atlas.png"))?;
+    
     // Log the positions of the single textures inside the atlantes into the console
     for rect in atlas.rects.iter() {
         println!("{:?}", rect);
