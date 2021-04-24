@@ -36,3 +36,4 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     Ok(())
 }
 ```
+For an example loading an entire directory of images, see the examples folders.
