@@ -141,7 +141,7 @@ pub fn atlas_buffers(mut buffers: Vec<DynamicImage>, options: AtlasOptions) -> R
     }
 
     rects.sort_by(|a, b| {a.0.cmp(&b.0)});
-    let rects: Vec<Rect> = rects.into_iter().map(|a| {println!("{}", a.0); a.1}).collect();
+    let rects: Vec<Rect> = rects.into_iter().map(|a| {a.1}).collect();
     if options.cut_down {
         for (i, atlas) in atlantes.iter_mut().enumerate() {
             let r = rects.iter().filter(|rect| {rect.atlas_index == i});
